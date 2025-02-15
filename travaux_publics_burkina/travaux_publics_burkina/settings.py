@@ -43,9 +43,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',  # Pour gérer les requêtes cross-origin (si nécessaire)
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'userAuth',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',   # Gérer les requêtes externes
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -136,3 +141,41 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# JWT configuration
+
+from datetime import timedelta
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),  # Durée de vie du token d'accès
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),  # Durée de vie du token de rafraîchissement
+    "ROTATE_REFRESH_TOKENS": True,  # Permet de rafraîchir le token d'accès avec un refresh token
+    "BLACKLIST_AFTER_ROTATION": True,
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": "LaCléSecrèteEtUnique!2025#JWtSecurisé",  # Remplace par une clé secrète sécurisée
+    "AUTH_HEADER_TYPES": ("Bearer",),  # Type d'autorisation dans l'en-tête HTTP
+    "USER_ID_FIELD": "id",
+    "USER_ID_CLAIM": "user_id",
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',  # Authentification par JWT
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',  # Toute requête doit être authentifiée
+    ],
+}
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.AllowAny',
+#     ],
+# }
+
+
+
+AUTH_USER_MODEL = 'userAuth.User'
