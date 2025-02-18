@@ -30,7 +30,7 @@ class User(AbstractUser):
         ("supplier", "entreprise"),
         ("admin", "administrateur"),
     ]
-    username=models.CharField(max_length=20, null=True)
+    # username=models.CharField(max_length=20, null=True)
     first_name=models.CharField(max_length=20, null=True, default='Napon')
     last_name=models.CharField(max_length=20, null=True, default='Emile')
     # Attributs supplémentaires
