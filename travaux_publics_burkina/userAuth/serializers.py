@@ -13,19 +13,6 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'password': {'write_only': True},  # Le mot de passe ne doit pas être récupéré dans les réponses
         }
-
-    def validate(self, attrs):
-        # Authentifier l'utilisateur avec l'email et le mot de passe
-        email = attrs.get("email")
-        password = attrs.get("password")
-        
-        user = authenticate(email=email, password=password)
-        if not user:
-            raise serializers.ValidationError("Les identifiants sont incorrects.")
-        
-        # Appeler la méthode validate() de la classe parente pour obtenir les tokens
-        data = super().validate(attrs)
-        return data
     
     def create(self, validated_data):
         # On retire le mot de passe avant de créer l'utilisateur
@@ -68,6 +55,12 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         return token
 
     def validate(self, attrs):
+        email = attrs.get("email")
+        password = attrs.get("password")
+        
+        user = authenticate(email=email, password=password)
+        if not user:
+            raise serializers.ValidationError("Les identifiants sont incorrects.")
         data = super().validate(attrs)  # Authentifie l'utilisateur et génère les tokens
 
         # Récupérer l'utilisateur authentifié

@@ -26,11 +26,11 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     ROLE_CHOICES = [
         ("citizen", "citoyen"),
-        ("authority", "autorité"),
+        ("autority", "autorité"),
         ("supplier", "entreprise"),
         ("admin", "administrateur"),
     ]
-    username=models.CharField(max_length=20, null=True)
+    # username=models.CharField(max_length=20, null=True)
     first_name=models.CharField(max_length=20, null=True, default='Napon')
     last_name=models.CharField(max_length=20, null=True, default='Emile')
     # Attributs supplémentaires
