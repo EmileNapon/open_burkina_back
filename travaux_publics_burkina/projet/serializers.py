@@ -7,7 +7,7 @@ class ProjectLocationSerializer(serializers.ModelSerializer):
         fields = ['latitude', 'longitude']
 
 class ProjectSerializer(serializers.ModelSerializer):
-    location = ProjectLocationSerializer()  # Inclusion des coordonnées géographiques dans le projet
+    location = ProjectLocationSerializer()  
 
     class Meta:
         model = Project

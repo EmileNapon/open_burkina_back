@@ -54,7 +54,6 @@ class Notification(models.Model):
         return f"Notification pour {self.project.name} le {self.send_date}"
 
 
-
 class ProjectLocation(models.Model):
     project = models.OneToOneField(Project, on_delete=models.CASCADE)
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
