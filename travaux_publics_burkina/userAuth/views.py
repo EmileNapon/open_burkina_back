@@ -26,8 +26,26 @@ class UserDetailView(generics.RetrieveAPIView):
 
 # Vue pour lister les utilisateurs (uniquement accessible aux utilisateurs authentifiés)
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])  # Appliquer la permission ici
+# @permission_classes([IsAuthenticated])  # Appliquer la permission ici
 def list_users(request):
     users = User.objects.all()  # Récupérer tous les utilisateurs
     serializer = UserSerializer(users, many=True)  # Sérialiser les données
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# Vue pour lister les autorites 
+class AutoritesListView(generics.ListAPIView):
+    queryset = User.objects.filter(role='autority')  
+    serializer_class = UserSerializer
+
+
+# Vue pour lister les prestataires 
+class PrestatairesListView(generics.ListAPIView):
+    queryset = User.objects.filter(role='supplier')  
+    serializer_class = UserSerializer
+
+
+# Vue pour lister les citoyens 
+class CitizensListView(generics.ListAPIView):
+    queryset = User.objects.filter(role='citizen')  
+    serializer_class = UserSerializer
